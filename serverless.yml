@@ -1,0 +1,33 @@
+service: lambda-template-js
+
+frameworkVersion: '3'
+
+# Cloud Provider
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+functions:
+  hello:
+    handler: index.handler
+    events: # The events that trigger this function
+      - http:
+          path: hello
+          method: get
+
+# Serverless plugins
+plugins:
+  # - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-esbuild
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude: aws-sdk
+    target: node14
+    # define: { 'require.resolve': undefined }
+    platform: node
+    concurrency: 10
